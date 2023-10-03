@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class LoginController {
 
-    @RequestMapping(value = {"/login","/"})
+    @RequestMapping(value = {"/login","/"}) //localhost:8080 or localhost:8080/login takes to same pg
     public String login(){
 
         return "login";
