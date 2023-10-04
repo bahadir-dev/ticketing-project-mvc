@@ -12,7 +12,7 @@ public class RoleServiceImpl extends AbstractMapService<RoleDTO,Long> implements
     }
 
     @Override
-    public List<RoleDTO> finadAll() {
+    public List<RoleDTO> findAll() {
         return super.findAll();
     }
 
