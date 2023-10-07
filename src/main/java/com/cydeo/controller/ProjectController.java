@@ -6,8 +6,11 @@ import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.websocket.server.PathParam;
 
 @Controller
 @RequestMapping("/project")
@@ -28,7 +31,7 @@ public class ProjectController {
         //what attributes to pass to view
         model.addAttribute("project",new ProjectDTO());
         model.addAttribute("projects",projectService.findAll());
-        model.addAttribute("managers", userService.findAll());
+        model.addAttribute("managers", userService.findManagers());
 
         return "/project/create";
     }
@@ -40,4 +43,18 @@ public class ProjectController {
 
         return "redirect:/project/create";
     }
+
+    @GetMapping("/delete/{projectCode}")
+    public String deleteProject(@PathVariable("projectCode") String projectCode){
+        projectService.deleteById(projectCode);
+        return "redirect:/project/create";
+    }
+
+    @GetMapping("/complete/{projectCode}")
+    public String completeProject(@PathVariable("projectCode") String projectCode){
+        projectService.complete(projectService.findById(projectCode));
+        return "redirect:/project/create";
+    }
+
+
 }
