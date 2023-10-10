@@ -8,6 +8,7 @@ import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -37,10 +38,34 @@ public class TaskController {
 
     @PostMapping("/create")
     public String insertTask(TaskDTO task){
-
         taskService.save(task);
         return "redirect:/task/create";
     }
+
+    @GetMapping("/delete/{taksId}")
+    public String deleteTask(@PathVariable("taskId") Long taskId){
+        taskService.deleteById(taskId);
+        return "redirect:/task/create";
+    }
+
+    @GetMapping("/update/{taskId}")
+    public String editTask(@PathVariable("taskId") Long taskId, Model model){
+
+        model.addAttribute("task", taskService.findById(taskId));
+        model.addAttribute("projects", projectService.findAll());
+        model.addAttribute("employees",userService.findEmployees());
+        model.addAttribute("tasks", taskService.findAll());
+
+        return "/task/update";
+    }
+
+    @PostMapping("/update")
+    public String updateTask(TaskDTO task){
+        taskService.update(task);
+        return "redirect:/task/create";
+    }
+
+
 
 
 }
